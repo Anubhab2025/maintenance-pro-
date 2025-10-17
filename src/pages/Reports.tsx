@@ -53,11 +53,74 @@ const Reports: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState("thisYear");
   const [selectedDepartment, setSelectedDepartment] = useState("all");
 
+  const downloadCSV = (data: any[], filename: string) => {
+    if (data.length === 0) return;
+
+    const headers = Object.keys(data[0]);
+    const csvContent = [
+      headers.join(','),
+      ...data.map(row =>
+        headers.map(header => {
+          const value = row[header];
+          // Handle values that might contain commas by wrapping in quotes
+          return typeof value === 'string' && value.includes(',') ? `"${value}"` : value;
+        }).join(',')
+      )
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${filename}_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleExportReport = () => {
+    switch (reportType) {
+      case "costAnalysis":
+        // Export monthly cost data
+        const costReportData = monthlyCostData.map(item => ({
+          Month: item.name,
+          "Cost (₹)": item.cost,
+          "Formatted_Cost": formatIndianRupees(item.cost)
+        }));
+        downloadCSV(costReportData, 'monthly_maintenance_costs');
+
+        // Also export department data
+        const departmentReportData = departmentCostData.map(item => ({
+          Department: item.name,
+          "Cost (₹)": item.cost,
+          "Formatted_Cost": formatIndianRupees(item.cost)
+        }));
+        downloadCSV(departmentReportData, 'department_cost_breakdown');
+        break;
+
+      case "machineReliability":
+        const reliabilityReportData = machineReliabilityData.map(item => ({
+          "Machine_Name": item.name,
+          "Reliability_Score": `${item.value}%`,
+          "Status": item.value >= 90 ? "Excellent" : item.value >= 70 ? "Good" : "Needs Attention"
+        }));
+        downloadCSV(reliabilityReportData, 'machine_reliability_report');
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 justify-between items-center sm:flex-row">
         <h1 className="text-2xl font-bold text-gray-800">Reports</h1>
-        <button className="inline-flex justify-center items-center px-4 py-2 w-full text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm sm:w-auto hover:bg-gray-50">
+        <button
+          onClick={handleExportReport}
+          className="inline-flex justify-center items-center px-4 py-2 w-full text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm sm:w-auto hover:bg-gray-50"
+        >
           <Download size={16} className="mr-2" />
           Export Report
         </button>
