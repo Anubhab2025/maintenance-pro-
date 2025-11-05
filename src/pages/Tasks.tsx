@@ -214,28 +214,28 @@ const Tasks: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-800">Maintenance Tasks</h1>
-        <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md border border-transparent shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <Plus size={16} className="mr-2" />
           Create Task
         </button>
       </div>
 
       {/* Filter and Search */}
-      <div className="bg-white p-4 rounded-lg shadow flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
+      <div className="flex flex-col p-4 space-y-4 bg-white rounded-lg shadow md:flex-row md:items-center md:justify-between md:space-y-0 md:space-x-4">
         <div className="flex flex-1 max-w-md">
           <div className="relative w-full">
             <input
               type="text"
               placeholder="Search tasks..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="py-2 pr-4 pl-10 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
             <Search
               size={20}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 text-gray-400 transform -translate-y-1/2"
             />
           </div>
         </div>
@@ -243,7 +243,7 @@ const Tasks: React.FC = () => {
           <div className="flex items-center space-x-2">
             <Filter size={16} className="text-gray-500" />
             <select
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               value={selectedDepartment}
               onChange={(e) => setSelectedDepartment(e.target.value)}
             >
@@ -255,7 +255,7 @@ const Tasks: React.FC = () => {
           </div>
           <div className="flex items-center space-x-2">
             <select
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
@@ -268,7 +268,7 @@ const Tasks: React.FC = () => {
           </div>
           <div className="flex items-center space-x-2">
             <select
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
             >
@@ -280,15 +280,15 @@ const Tasks: React.FC = () => {
         </div>
       </div>
 
-      {/* Task List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      {/* Task List Table for Desktop */}
+      <div className="hidden overflow-hidden bg-white rounded-lg shadow md:block">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th 
                   scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
                   onClick={() => handleSort('machineName')}
                 >
                   <div className="flex items-center">
@@ -300,7 +300,7 @@ const Tasks: React.FC = () => {
                 </th>
                 <th 
                   scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
                   onClick={() => handleSort('department')}
                 >
                   <div className="flex items-center">
@@ -312,13 +312,13 @@ const Tasks: React.FC = () => {
                 </th>
                 <th 
                   scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                 >
                   Status/Priority
                 </th>
                 <th 
                   scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
                   onClick={() => handleSort('dueDate')}
                 >
                   <div className="flex items-center">
@@ -330,7 +330,7 @@ const Tasks: React.FC = () => {
                 </th>
                 <th 
                   scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
                   onClick={() => handleSort('assignedTo')}
                 >
                   <div className="flex items-center">
@@ -342,11 +342,11 @@ const Tasks: React.FC = () => {
                 </th>
                 <th 
                   scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                 >
                   Location
                 </th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
                   Actions
                 </th>
               </tr>
@@ -356,7 +356,7 @@ const Tasks: React.FC = () => {
                 <tr key={task.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-gray-900">{task.machineName}</div>
-                    <div className="text-xs text-gray-500 mt-1">{task.type}</div>
+                    <div className="mt-1 text-xs text-gray-500">{task.type}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">{task.department}</div>
@@ -377,7 +377,7 @@ const Tasks: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <UserCircle size={20} className="text-gray-400 mr-2" />
+                      <UserCircle size={20} className="mr-2 text-gray-400" />
                       <span className="text-sm text-gray-900">{task.assignedTo}</span>
                     </div>
                   </td>
@@ -387,11 +387,11 @@ const Tasks: React.FC = () => {
                       <div className="text-xs text-gray-500">{task.vendor}</div>
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                     <div className="flex justify-end space-x-2">
                       <Link 
                         to={`/tasks/${task.id}`} 
-                        className="text-indigo-600 hover:text-indigo-900 p-1 rounded hover:bg-indigo-50"
+                        className="p-1 text-indigo-600 rounded hover:text-indigo-900 hover:bg-indigo-50"
                       >
                         <FileText size={18} />
                       </Link>
@@ -406,6 +406,66 @@ const Tasks: React.FC = () => {
           <div className="px-6 py-12 text-center">
             <p className="text-gray-500">No tasks found matching your criteria.</p>
           </div>
+        )}
+      </div>
+
+      {/* Task Cards for Mobile */}
+      <div className="block space-y-4 md:hidden">
+        {filteredTasks.length === 0 ? (
+          <div className="p-6 text-center bg-white rounded-lg shadow">
+            <p className="text-gray-500">No tasks found matching your criteria.</p>
+          </div>
+        ) : (
+          filteredTasks.map((task) => (
+            <div key={task.id} className="p-4 bg-white rounded-lg shadow">
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {task.machineName}
+                  </h3>
+                  <p className="text-sm text-gray-500">{task.type}</p>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {getStatusBadge(task.status)}
+                    {getPriorityBadge(task.priority)}
+                  </div>
+                </div>
+                <Link 
+                  to={`/tasks/${task.id}`} 
+                  className="p-2 text-indigo-600 rounded hover:text-indigo-900 hover:bg-indigo-50"
+                >
+                  <FileText size={20} />
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 gap-4 mt-4 text-sm">
+                <div>
+                  <span className="font-medium text-gray-500">Department:</span>
+                  <p className="text-gray-900">{task.department}</p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-500">Due Date:</span>
+                  <p className="text-gray-900">
+                    {new Date(task.dueDate).toLocaleDateString()}
+                  </p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-500">Assigned To:</span>
+                  <p className="text-gray-900">{task.assignedTo}</p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-500">Location:</span>
+                  <p className="text-gray-900">{task.location}</p>
+                  {task.vendor && (
+                    <p className="text-xs text-gray-500">{task.vendor}</p>
+                  )}
+                </div>
+              </div>
+              {task.completedDate && (
+                <div className="mt-2 text-xs text-green-600">
+                  Completed: {new Date(task.completedDate).toLocaleDateString()}
+                </div>
+              )}
+            </div>
+          ))
         )}
       </div>
     </div>

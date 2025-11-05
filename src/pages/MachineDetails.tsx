@@ -593,7 +593,7 @@ const MachineDetails: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center mb-6">
+      <div className="flex items-center mb-6 overflow-x-auto">
         <Link
           to="/machines"
           className="flex items-center mr-4 text-indigo-600 hover:text-indigo-900"
@@ -601,10 +601,10 @@ const MachineDetails: React.FC = () => {
           <ChevronLeft size={20} />
           <span>Back to Machines</span>
         </Link>
-        <h1 className="flex-1 text-2xl font-bold text-gray-800">
+        <h1 className="flex-1 text-xl md:text-2xl font-bold text-gray-800">
           {machine.name}
         </h1>
-        <div className="flex items-center space-x-2">
+        <div className="hidden md:flex items-center space-x-2">
           {getStatusBadge(machine.status)}
           <Link
             to={`/machines/₹{id}/edit`}
@@ -619,7 +619,7 @@ const MachineDetails: React.FC = () => {
       {/* Machine Overview */}
       <div className="overflow-hidden bg-white rounded-lg shadow">
         <div className="border-b border-gray-200">
-          <nav className="flex -mb-px">
+          <nav className="flex -mb-px overflow-x-auto">
             <button
               className={`py-4 px-6 font-medium text-sm border-b-2 ₹{
                 activeTab === "overview"
@@ -690,7 +690,7 @@ const MachineDetails: React.FC = () => {
           {activeTab === "overview" && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <div>
+                <div className="bg-white rounded-lg shadow p-6">
                   <h3 className="mb-4 text-lg font-medium">
                     Machine Information
                   </h3>
@@ -722,7 +722,7 @@ const MachineDetails: React.FC = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="bg-white rounded-lg shadow p-6">
                   <h3 className="mb-4 text-lg font-medium">Purchase Details</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
@@ -763,7 +763,7 @@ const MachineDetails: React.FC = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="bg-white rounded-lg shadow p-6">
                   <h3 className="mb-4 text-lg font-medium">
                     Health & Maintenance
                   </h3>
@@ -818,7 +818,7 @@ const MachineDetails: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-8 bg-white rounded-lg shadow p-6">
                 <h3 className="mb-4 text-lg font-medium">Specifications</h3>
                 <div className="grid grid-cols-1 gap-4 p-4 bg-gray-50 rounded-lg sm:grid-cols-2 md:grid-cols-3">
                   {machine.specifications.map((spec, index) => (

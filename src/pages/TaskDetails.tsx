@@ -419,10 +419,10 @@ END OF REPORT
           <ChevronLeft size={20} />
           <span>Back to Tasks</span>
         </Link>
-        <h1 className="flex-1 text-2xl font-bold text-gray-800">
+        <h1 className="flex-1 text-xl md:text-2xl font-bold text-gray-800">
           {task.type} - {task.machineName}
         </h1>
-        <div className="flex items-center space-x-2">
+        <div className="hidden md:flex items-center space-x-2">
           {getStatusBadge(task.status)}
           {getPriorityBadge(task.priority)}
         </div>
@@ -689,7 +689,7 @@ END OF REPORT
         {/* Tab Content */}
         <div className="p-6">
           {activeTab === "details" && (
-            <div>
+            <div className="bg-white rounded-lg shadow p-6">
               <h3 className="mb-4 text-lg font-medium">Task Description</h3>
               <p className="text-gray-800 whitespace-pre-line">
                 {task.description}
@@ -698,7 +698,7 @@ END OF REPORT
           )}
 
           {activeTab === "checklist" && (
-            <div>
+            <div className="bg-white rounded-lg shadow p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">Task Checklist</h3>
                 <div className="text-sm text-gray-500">
@@ -740,7 +740,7 @@ END OF REPORT
           )}
 
           {activeTab === "history" && (
-            <div>
+            <div className="bg-white rounded-lg shadow p-6">
               <h3 className="mb-4 text-lg font-medium">Task History</h3>
               <div className="relative">
                 <div className="absolute top-0 bottom-0 left-3.5 w-0.5 bg-gray-200"></div>
@@ -774,7 +774,7 @@ END OF REPORT
           )}
 
           {activeTab === "comments" && (
-            <div>
+            <div className="bg-white rounded-lg shadow p-6">
               <h3 className="mb-4 text-lg font-medium">Comments</h3>
               <div className="mb-6 space-y-4">
                 {task.comments.map((comment) => (
@@ -820,7 +820,7 @@ END OF REPORT
           )}
 
           {activeTab === "documents" && (
-            <div>
+            <div className="bg-white rounded-lg shadow p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">Documents</h3>
                 <div className="flex items-center space-x-2">
@@ -837,7 +837,8 @@ END OF REPORT
                 </div>
               </div>
 
-              <div className="overflow-hidden bg-white rounded-lg border border-gray-300">
+              {/* Documents Table for Desktop */}
+              <div className="hidden md:block overflow-hidden bg-white rounded-lg border border-gray-300">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
@@ -893,11 +894,56 @@ END OF REPORT
                 </table>
               </div>
 
-              {documents.length === 0 && (
-                <div className="py-8 text-center text-gray-500">
-                  No documents attached to this task.
-                </div>
-              )}
+              {/* Documents Cards for Mobile */}
+              <div className="block md:hidden space-y-4">
+                {documents.length === 0 ? (
+                  <div className="py-8 text-center text-gray-500">
+                    No documents attached to this task.
+                  </div>
+                ) : (
+                  documents.map((doc) => (
+                    <div key={doc.id} className="p-4 bg-white rounded-lg shadow border">
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-indigo-600">
+                            {doc.name}
+                          </h4>
+                          <div className="mt-2 grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                              <span className="font-medium text-gray-500">Type:</span>
+                              <p className="text-gray-900">{doc.type}</p>
+                            </div>
+                            <div>
+                              <span className="font-medium text-gray-500">Uploaded By:</span>
+                              <p className="text-gray-900">{doc.uploadedBy}</p>
+                            </div>
+                            <div className="col-span-2">
+                              <span className="font-medium text-gray-500">Date:</span>
+                              <p className="text-gray-900">
+                                {new Date(doc.date).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col space-y-2">
+                          <button
+                            onClick={() => handleDocumentDownload(doc.id)}
+                            className="px-3 py-1 text-sm text-indigo-600 border border-indigo-600 rounded hover:bg-indigo-50"
+                          >
+                            Download
+                          </button>
+                          <button
+                            onClick={() => handleDocumentDelete(doc.id)}
+                            className="px-3 py-1 text-sm text-red-600 border border-red-600 rounded hover:bg-red-50"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           )}
         </div>

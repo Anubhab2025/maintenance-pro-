@@ -234,8 +234,8 @@ const Machines: React.FC = () => {
         </div>
       </div>
 
-      {/* Machine List Table */}
-      <div className="overflow-hidden bg-white rounded-lg shadow">
+      {/* Machine List Table for Desktop */}
+      <div className="hidden md:block overflow-hidden bg-white rounded-lg shadow">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -396,6 +396,64 @@ const Machines: React.FC = () => {
               No machines found matching your criteria.
             </p>
           </div>
+        )}
+      </div>
+
+      {/* Machine Cards for Mobile */}
+      <div className="block md:hidden space-y-4">
+        {filteredMachines.length === 0 ? (
+          <div className="p-6 text-center bg-white rounded-lg shadow">
+            <p className="text-gray-500">
+              No machines found matching your criteria.
+            </p>
+          </div>
+        ) : (
+          filteredMachines.map((machine) => (
+            <div key={machine.id} className="p-4 bg-white rounded-lg shadow">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {machine.name}
+                  </h3>
+                  <p className="text-sm text-gray-500">ID: {machine.id}</p>
+                  <div className="mt-2">
+                    {getStatusBadge(machine.status)}
+                  </div>
+                </div>
+                <div className="flex space-x-2">
+                  <Link
+                    to={`/machines/${machine.id}`}
+                    className="p-2 text-indigo-600 rounded hover:text-indigo-900 hover:bg-indigo-50"
+                  >
+                    <FileText size={18} />
+                  </Link>
+                  <button className="p-2 text-amber-600 rounded hover:text-amber-900 hover:bg-amber-50">
+                    <Wrench size={18} />
+                  </button>
+                </div>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="font-medium text-gray-500">Department:</span>
+                  <p className="text-gray-900">{machine.department}</p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-500">Health:</span>
+                  <div className="mt-1">{getHealthIndicator(machine.healthScore)}</div>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-500">Next Maintenance:</span>
+                  <p className="text-gray-900">
+                    {new Date(machine.nextMaintenance).toLocaleDateString()}
+                  </p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-500">Repairs:</span>
+                  <p className="text-gray-900">{machine.repairCount}</p>
+                </div>
+              </div>
+            </div>
+          ))
         )}
       </div>
     </div>
